@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react"
 
+var seconds:number = 10 * 60
 export function Clock() {
-    
-    const [seconds, setSeconds] = useState<number>(0)
-    const [minutes, setMinutes] = useState<number>(0)
+    const [time, setTime] = useState<string>("10:00")
 
-    const plusMinute = () => {
-        setSeconds(0)
-        setMinutes((minutes) => minutes + 1)
+    const updateTime = () => {
+        seconds = seconds - 1
+        const date = new Date(0)
+        date.setSeconds(seconds)
+        setTime(date.toTimeString().slice(3, 8))
     }
 
     useEffect(() => {
         const interval = setInterval(() => {
-            seconds == 59 
-            ? plusMinute() :
-            setSeconds((seconds) => seconds + 1)
+            updateTime()
         }, 1000)
 
         return () => clearInterval(interval)
@@ -22,7 +21,7 @@ export function Clock() {
 
     return (
         <h1>
-            {minutes}:{seconds}
+            {time}
         </h1>
     )
 }
