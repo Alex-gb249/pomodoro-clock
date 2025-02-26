@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 
-const DEFAULT_TIME = 10 * 60
+const DEFAULT_SECONDS = 10 * 60
+const DEFAULT_TIME = "10:00"
 
-var seconds:number = DEFAULT_TIME
+var seconds:number = DEFAULT_SECONDS
 
 export function Clock() {
-    const [time, setTime] = useState<string>("10:00")
+    const [time, setTime] = useState<string>(DEFAULT_TIME)
     const [isRunning, setIsRunning] = useState<boolean>(false)
 
     const updateTimer = () => {
@@ -22,8 +23,8 @@ export function Clock() {
 
     const startTimer = () => {
         setIsRunning(true)
-        setTime("10:00")
-        seconds = DEFAULT_TIME
+        setTime(DEFAULT_TIME)
+        seconds = DEFAULT_SECONDS
     }
 
     const resumeTimer = () => {
@@ -52,7 +53,7 @@ export function Clock() {
                 <button onClick={stopTimer}>Stop</button> :
                 <button onClick={startTimer}>{isRunning ? 'Reset' : 'Play'}</button>
             }
-            {!isRunning && seconds < DEFAULT_TIME ? <button onClick={resumeTimer}>Resume</button> : null}
+            {!isRunning && seconds < DEFAULT_SECONDS ? <button onClick={resumeTimer}>Resume</button> : null}
         </>
     )
 }
