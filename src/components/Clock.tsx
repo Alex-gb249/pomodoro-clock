@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 const DEFAULT_TIME = 10 * 60
 
-var seconds:number = 0
+var seconds:number = DEFAULT_TIME
 
 export function Clock() {
     const [time, setTime] = useState<string>("10:00")
@@ -17,7 +17,6 @@ export function Clock() {
 
     const stopTimer = () => {
         console.log("Time's up!")
-        seconds = 0
         setIsRunning(false)
     }
 
@@ -27,11 +26,17 @@ export function Clock() {
         seconds = DEFAULT_TIME
     }
 
+    const resumeTimer = () => {
+        updateTimer()
+        setIsRunning(true)
+    }
+
     useEffect(() => {
-        if(seconds == 0) {
+        if(!isRunning) {
             stopTimer()
             return
         }
+        
         const interval = setInterval(() => {
             updateTimer()
         }, 1000)
@@ -42,7 +47,12 @@ export function Clock() {
     return (
         <>
             <h1>{time}</h1>
-            {isRunning ? <button onClick={stopTimer}>Stop</button> : <button onClick={startTimer}>Play</button>}
+            {
+                isRunning ?
+                <button onClick={stopTimer}>Stop</button> :
+                <button onClick={startTimer}>{isRunning ? 'Reset' : 'Play'}</button>
+            }
+            {!isRunning && seconds < DEFAULT_TIME ? <button onClick={resumeTimer}>Resume</button> : null}
         </>
     )
 }
