@@ -2,34 +2,27 @@ import { useEffect, useState } from "react"
 import './Clock.css'
 
 const DEFAULT_SECONDS = 10 * 60
-const DEFAULT_TIME = "10:00"
-
-var seconds:number = DEFAULT_SECONDS
 
 export function Clock() {
-    const [time, setTime] = useState<string>(DEFAULT_TIME)
+    const [seconds, setSeconds] = useState<number>(DEFAULT_SECONDS)
     const [isRunning, setIsRunning] = useState<boolean>(false)
 
-    const updateTimer = () => {
-        seconds = seconds - 1
+    const updateTimer = (sec: number): string => {
         const date = new Date(0)
-        date.setSeconds(seconds)
-        setTime(date.toTimeString().slice(3, 8))
+        date.setSeconds(sec)
+        return date.toTimeString().slice(3, 8)
     }
 
     const stopTimer = () => {
-        console.log("Time's up!")
         setIsRunning(false)
     }
 
     const startTimer = () => {
         setIsRunning(true)
-        setTime(DEFAULT_TIME)
-        seconds = DEFAULT_SECONDS
+        setSeconds(DEFAULT_SECONDS)
     }
 
     const resumeTimer = () => {
-        updateTimer()
         setIsRunning(true)
     }
 
@@ -40,7 +33,8 @@ export function Clock() {
         }
         
         const interval = setInterval(() => {
-            updateTimer()
+            const newSeconds = seconds - 1
+            setSeconds(newSeconds)
         }, 1000)
 
         return () => clearInterval(interval)
@@ -48,7 +42,7 @@ export function Clock() {
 
     return (
         <div>
-            <h1 className="text-center fs-1">{time}</h1>
+            <h1 className="text-center fs-1">{updateTimer(seconds)}</h1>
             <div className="d-flex justify-content-center">
                 {
                     isRunning ?
