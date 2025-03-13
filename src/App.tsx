@@ -1,13 +1,18 @@
 import './App.css'
-import { Header } from './components/Header'
-import { Clock } from './components/Clock'
+import { Header } from './components/header/Header'
+import { Clock } from './components/clock/Clock'
 
 function App() {
 
   return (
     <>
-      <Header />
-      <Clock />
+      <div className='all'>
+        <Header />
+        <div className='d-flex justify-content-center align-items-center'>
+          <Clock />
+        </div>
+        <div className='footer'> footer</div>
+      </div>
     </>
   )
 }
