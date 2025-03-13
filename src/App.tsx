@@ -1,6 +1,7 @@
 import './App.css'
 import { Header } from './components/header/Header'
 import { Clock } from './components/clock/Clock'
+import { Footer } from './components/footer/Footer'
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
         <div className='d-flex justify-content-center align-items-center'>
           <Clock />
         </div>
-        <div className='footer'> footer</div>
+        <Footer />
       </div>
     </>
   )
