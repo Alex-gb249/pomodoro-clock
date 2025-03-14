@@ -27,6 +27,11 @@ export function Clock() {
         setSeconds(DEFAULT_SECONDS)
     }
 
+    const resetTimer = () => {
+        setSeconds(DEFAULT_SECONDS)
+        localStorage.setItem('currentSeconds', DEFAULT_SECONDS.toString())
+    }
+
     const resumeTimer = () => {
         setIsRunning(true)
     }
@@ -50,11 +55,23 @@ export function Clock() {
             <h1 className="text-center fs-1">{updateTimer(seconds)}</h1>
             <div className="d-flex justify-content-center">
                 {
+                    !isRunning && seconds === DEFAULT_SECONDS ?
+                    <button onClick={startTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Play</button> :
+                    null
+                }
+                {
                     isRunning ?
                     <button onClick={stopTimer} className="btn btn-sm btn-outline-danger fw-bold border-3">Stop</button> :
-                    <button onClick={startTimer} className="btn btn-sm btn-outline-success fw-bold border-3">{ seconds !== DEFAULT_SECONDS ? 'Reset' : 'Play'}</button>
+                    null
                 }
-                {!isRunning && seconds < DEFAULT_SECONDS ? <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button> : null}
+                {
+                    !isRunning && seconds < DEFAULT_SECONDS ?
+                    <>
+                        <button onClick={resetTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Reset</button>
+                        <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button>
+                    </> :
+                    null
+                }
             </div>
         </div>
     )
