@@ -4,7 +4,11 @@ import './Clock.css'
 const DEFAULT_SECONDS = 10 * 60
 
 export function Clock() {
-    const [seconds, setSeconds] = useState<number>(DEFAULT_SECONDS)
+    const [seconds, setSeconds] = useState<number>(() => {
+        const currentSeconds = parseInt(localStorage.getItem('currentSeconds') || '0')
+        if(currentSeconds > 0) return currentSeconds
+        return DEFAULT_SECONDS
+    })
     const [isRunning, setIsRunning] = useState<boolean>(false)
 
     const updateTimer = (sec: number): string => {
@@ -15,6 +19,7 @@ export function Clock() {
 
     const stopTimer = () => {
         setIsRunning(false)
+        localStorage.setItem('currentSeconds', seconds.toString())
     }
 
     const startTimer = () => {
