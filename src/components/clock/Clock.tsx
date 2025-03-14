@@ -44,6 +44,10 @@ export function Clock() {
         
         const interval = setInterval(() => {
             const newSeconds = seconds - 1
+            if(newSeconds === 0) {
+                setIsRunning(false)
+                localStorage.removeItem('currentSeconds')
+            }
             setSeconds(newSeconds)
         }, 1000)
 
@@ -66,10 +70,12 @@ export function Clock() {
                 }
                 {
                     !isRunning && seconds < DEFAULT_SECONDS ?
-                    <>
-                        <button onClick={resetTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Reset</button>
-                        <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button>
-                    </> :
+                    <button onClick={resetTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Reset</button> :
+                    null
+                }
+                {
+                    !isRunning && seconds < DEFAULT_SECONDS && seconds > 0 ?
+                    <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button> :
                     null
                 }
             </div>
