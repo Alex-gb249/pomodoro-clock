@@ -10,6 +10,8 @@ export function Clock() {
         return DEFAULT_SECONDS
     })
     const [isRunning, setIsRunning] = useState<boolean>(false)
+    const [isCustomizing, setIsCutomizing] = useState<boolean>(false)
+    const [customSeconds, setCustomSeconds] = useState<number>(DEFAULT_SECONDS)
 
     const updateTimer = (sec: number): string => {
         const date = new Date(0)
@@ -24,12 +26,12 @@ export function Clock() {
 
     const startTimer = () => {
         setIsRunning(true)
-        setSeconds(DEFAULT_SECONDS)
+        setSeconds(customSeconds)
     }
 
     const resetTimer = () => {
-        setSeconds(DEFAULT_SECONDS)
-        localStorage.setItem('currentSeconds', DEFAULT_SECONDS.toString())
+        setSeconds(customSeconds)
+        localStorage.setItem('currentSeconds', customSeconds.toString())
     }
 
     const resumeTimer = () => {
@@ -54,12 +56,34 @@ export function Clock() {
         return () => clearInterval(interval)
     })
 
+    const handleCustomize = () => {
+        setIsCutomizing(!isCustomizing)
+    }
+
+    const handleChangeTime = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if(e.key !== 'Enter') return
+        
+        const newSeconds = parseInt(e.currentTarget.value) * 60
+        setCustomSeconds(newSeconds)
+        setSeconds(newSeconds)
+        setIsCutomizing(false)
+    }
+
     return (
         <div>
-            <h1 className="text-center fs-1">{updateTimer(seconds)}</h1>
             <div className="d-flex justify-content-center">
                 {
-                    !isRunning && seconds === DEFAULT_SECONDS ?
+                    isCustomizing ?
+                    <>
+                        <input autoFocus={true} className="fs-1 mb-2" type="number" defaultValue="10" onKeyUp={(e) => handleChangeTime(e)}/>
+                    </> :
+                    <h1 className="text-light text-center fs-1 mb-2" onClick={handleCustomize}>{updateTimer(seconds)}</h1>
+                }
+            </div>
+
+            <div className="d-flex justify-content-center">
+                {
+                    !isRunning && seconds === customSeconds ?
                     <button onClick={startTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Play</button> :
                     null
                 }
@@ -69,12 +93,12 @@ export function Clock() {
                     null
                 }
                 {
-                    !isRunning && seconds < DEFAULT_SECONDS ?
+                    !isRunning && seconds < customSeconds ?
                     <button onClick={resetTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Reset</button> :
                     null
                 }
                 {
-                    !isRunning && seconds < DEFAULT_SECONDS && seconds > 0 ?
+                    !isRunning && seconds < customSeconds && seconds > 0 ?
                     <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button> :
                     null
                 }
