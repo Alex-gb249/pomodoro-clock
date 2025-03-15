@@ -1,0 +1,25 @@
+input {
+  border: none;
+  background: unset;
+  box-sizing: unset;
+  width: 2ch;
+}
+
+input, span {
+  font-size: xx-large;
+  font-family: "Jersey 10", sans-serif;
+}
+
+/* Remove the arrows */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
