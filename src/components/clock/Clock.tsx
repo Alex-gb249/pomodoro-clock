@@ -61,9 +61,9 @@ export function Clock() {
     }
 
     const handleChangeTime = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if(e.key !== 'Enter') return
+        if(e.key !== 'Enter' || e.currentTarget.valueAsNumber <= 0) return
         
-        const newSeconds = parseInt(e.currentTarget.value) * 60
+        const newSeconds = e.currentTarget.valueAsNumber * 60
         setCustomSeconds(newSeconds)
         setSeconds(newSeconds)
         setIsCutomizing(false)
