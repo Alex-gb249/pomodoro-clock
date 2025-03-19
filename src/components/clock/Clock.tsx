@@ -4,14 +4,18 @@ import './Clock.css'
 const DEFAULT_SECONDS = 10 * 60
 
 export function Clock() {
-    const [seconds, setSeconds] = useState<number>(() => {
-        const currentSeconds = parseInt(localStorage.getItem('currentSeconds') || '0')
-        if(currentSeconds > 0) return currentSeconds
+
+    // TODO: get into a utilities file.
+    const initialSeconds = () => {
+        const savedSeconds = parseInt(localStorage.getItem('savedSeconds') || '0')
+        if(savedSeconds > 0) return savedSeconds
         return DEFAULT_SECONDS
-    })
+    }
+
+    const [seconds, setSeconds] = useState<number>(initialSeconds())
     const [isRunning, setIsRunning] = useState<boolean>(false)
-    const [isCustomizing, setIsCutomizing] = useState<boolean>(false)
-    const [customSeconds, setCustomSeconds] = useState<number>(DEFAULT_SECONDS)
+    const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
+    const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
 
     const updateTimer = (sec: number): string => {
         const minutes = Math.floor(sec / 60).toString().padStart(2, '0')
@@ -21,7 +25,7 @@ export function Clock() {
 
     const stopTimer = () => {
         setIsRunning(false)
-        localStorage.setItem('currentSeconds', seconds.toString())
+        localStorage.setItem('savedSeconds', seconds.toString())
     }
 
     const startTimer = () => {
@@ -31,7 +35,7 @@ export function Clock() {
 
     const resetTimer = () => {
         setSeconds(customSeconds)
-        localStorage.setItem('currentSeconds', customSeconds.toString())
+        localStorage.setItem('savedSeconds', customSeconds.toString())
     }
 
     const resumeTimer = () => {
@@ -39,16 +43,13 @@ export function Clock() {
     }
 
     useEffect(() => {
-        if(!isRunning) {
-            stopTimer()
-            return
-        }
-        
+        if(!isRunning) return
+
         const interval = setInterval(() => {
             const newSeconds = seconds - 1
             if(newSeconds === 0) {
                 setIsRunning(false)
-                localStorage.removeItem('currentSeconds')
+                localStorage.removeItem('savedSeconds')
             }
             setSeconds(newSeconds)
         }, 1000)
@@ -57,16 +58,17 @@ export function Clock() {
     })
 
     const handleCustomize = () => {
-        setIsCutomizing(!isCustomizing)
+        stopTimer()
+        setIsCustomizing(true)
     }
 
-    const handleChangeTime = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(e.key !== 'Enter' || e.currentTarget.valueAsNumber <= 0) return
-        
+
         const newSeconds = e.currentTarget.valueAsNumber * 60
         setCustomSeconds(newSeconds)
         setSeconds(newSeconds)
-        setIsCutomizing(false)
+        setIsCustomizing(false)
     }
 
     return (
@@ -75,7 +77,7 @@ export function Clock() {
                 {
                     isCustomizing ?
                     <>
-                        <input autoFocus={true} className="fs-1 mb-2" type="number" defaultValue="10" onKeyUp={(e) => handleChangeTime(e)}/>
+                        <input autoFocus={true} className="fs-1 mb-2" type="number" defaultValue={customSeconds / 60} onKeyUp={(e) => handleEnter(e)} onChange={(e) => setCustomSeconds(e.currentTarget.valueAsNumber * 60)}/>
                     </> :
                     <h1 className="text-light text-center fs-1 mb-2" onClick={handleCustomize}>{updateTimer(seconds)}</h1>
                 }
@@ -83,22 +85,22 @@ export function Clock() {
 
             <div className="d-flex justify-content-center">
                 {
-                    !isRunning && seconds === customSeconds ?
+                    !isRunning && !isCustomizing && seconds == customSeconds ?
                     <button onClick={startTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Play</button> :
                     null
                 }
                 {
-                    isRunning ?
+                    isRunning && !isCustomizing ?
                     <button onClick={stopTimer} className="btn btn-sm btn-outline-danger fw-bold border-3">Stop</button> :
                     null
                 }
                 {
-                    !isRunning && seconds < customSeconds ?
+                    !isRunning && !isCustomizing && seconds < customSeconds ?
                     <button onClick={resetTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Reset</button> :
                     null
                 }
                 {
-                    !isRunning && seconds < customSeconds && seconds > 0 ?
+                    !isRunning && !isCustomizing && seconds < customSeconds && seconds > 0 ?
                     <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button> :
                     null
                 }
