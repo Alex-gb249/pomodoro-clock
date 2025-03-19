@@ -14,9 +14,9 @@ export function Clock() {
     const [customSeconds, setCustomSeconds] = useState<number>(DEFAULT_SECONDS)
 
     const updateTimer = (sec: number): string => {
-        const date = new Date(0)
-        date.setSeconds(sec)
-        return date.toTimeString().slice(3, 8)
+        const minutes = Math.floor(sec / 60).toString().padStart(2, '0')
+        const seconds = (sec % 60).toString().padStart(2, '0')
+        return `${minutes}:${seconds}`
     }
 
     const stopTimer = () => {
