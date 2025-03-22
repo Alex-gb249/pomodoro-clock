@@ -2,7 +2,8 @@ input {
   border: none;
   background: unset;
   box-sizing: unset;
-  width: 2ch;
+  width: 6ch;
+  text-align: center;
 }
 
 input, span {
