@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import './Clock.css'
 
-const DEFAULT_SECONDS = 10 * 60
+const DEFAULT_SECONDS = 25 * 60
+const DEFAULT_BREAK_SECONDS = 5 * 60
 
 export function Clock() {
 
@@ -12,10 +13,16 @@ export function Clock() {
         return DEFAULT_SECONDS
     }
 
+    const getInitialIsBreak = () => {
+        const savedIsBreak = localStorage.getItem('isBreak') === 'true'
+        return savedIsBreak
+    }
+
     const [seconds, setSeconds] = useState<number>(initialSeconds())
     const [isRunning, setIsRunning] = useState<boolean>(false)
     const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
     const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
+    const [isBreak, setIsBreak] = useState<boolean>(getInitialIsBreak())
 
     const updateTimer = (sec: number): string => {
         const minutes = Math.floor(sec / 60).toString().padStart(2, '0')
@@ -42,23 +49,37 @@ export function Clock() {
         setIsRunning(true)
     }
 
+    const turnPomodoro = () => {
+        setIsRunning(false)
+
+        const newSetIsBreak = !isBreak
+        setIsBreak(newSetIsBreak)
+
+        const newSeconds = newSetIsBreak ? DEFAULT_BREAK_SECONDS : DEFAULT_SECONDS
+        setSeconds(newSeconds)
+        setCustomSeconds(newSeconds)
+
+        localStorage.setItem('isBreak', newSetIsBreak.toString())
+        localStorage.setItem('savedSeconds', newSeconds.toString())
+    }
+
     useEffect(() => {
         if(!isRunning) return
 
         const interval = setInterval(() => {
             const newSeconds = seconds - 1
             if(newSeconds === 0) {
-                setIsRunning(false)
-                localStorage.removeItem('savedSeconds')
+                turnPomodoro()
+            } else {
+                setSeconds(newSeconds)
             }
-            setSeconds(newSeconds)
         }, 1000)
 
         return () => clearInterval(interval)
     })
 
     const handleCustomize = () => {
-        stopTimer()
+        setIsRunning(false)
         setIsCustomizing(true)
     }
 
@@ -69,10 +90,19 @@ export function Clock() {
         setCustomSeconds(newSeconds)
         setSeconds(newSeconds)
         setIsCustomizing(false)
+        localStorage.setItem('savedSeconds', newSeconds.toString())
     }
 
     return (
         <div>
+            <div>
+                {
+                    isBreak ?
+                    <span className="badge text-bg-info">Break</span> :
+                    <span className="badge text-bg-success">Pomodoro</span>
+                }
+            </div>
+
             <div className="d-flex justify-content-center">
                 {
                     isCustomizing ?
