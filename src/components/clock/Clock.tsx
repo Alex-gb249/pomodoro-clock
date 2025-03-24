@@ -95,7 +95,7 @@ export function Clock() {
 
     return (
         <div>
-            <div>
+            <div className="d-flex justify-content-center">
                 {
                     isBreak ?
                     <span className="badge text-bg-info">Break</span> :
