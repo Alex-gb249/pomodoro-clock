@@ -1,34 +1,14 @@
 import { useEffect, useState } from "react"
 import './Clock.css'
-
-const DEFAULT_SECONDS = 25 * 60
-const DEFAULT_BREAK_SECONDS = 5 * 60
+import { DEFAULT_BREAK_SECONDS, DEFAULT_SECONDS, getInitialIsBreak, initialSeconds, secondsToClock } from "../../utilities/ClockUtils"
 
 export function Clock() {
-
-    // TODO: get into a utilities file.
-    const initialSeconds = () => {
-        const savedSeconds = parseInt(localStorage.getItem('savedSeconds') || '0')
-        if(savedSeconds > 0) return savedSeconds
-        return DEFAULT_SECONDS
-    }
-
-    const getInitialIsBreak = () => {
-        const savedIsBreak = localStorage.getItem('isBreak') === 'true'
-        return savedIsBreak
-    }
 
     const [seconds, setSeconds] = useState<number>(initialSeconds())
     const [isRunning, setIsRunning] = useState<boolean>(false)
     const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
     const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
     const [isBreak, setIsBreak] = useState<boolean>(getInitialIsBreak())
-
-    const updateTimer = (sec: number): string => {
-        const minutes = Math.floor(sec / 60).toString().padStart(2, '0')
-        const seconds = (sec % 60).toString().padStart(2, '0')
-        return `${minutes}:${seconds}`
-    }
 
     const stopTimer = () => {
         setIsRunning(false)
@@ -109,7 +89,7 @@ export function Clock() {
                     <>
                         <input autoFocus={true} className="fs-1 mb-2" type="number" defaultValue={customSeconds / 60} onKeyUp={(e) => handleEnter(e)} onChange={(e) => setCustomSeconds(e.currentTarget.valueAsNumber * 60)}/>
                     </> :
-                    <h1 className="text-light text-center fs-1 mb-2" onClick={handleCustomize}>{updateTimer(seconds)}</h1>
+                    <h1 className="text-light text-center fs-1 mb-2" onClick={handleCustomize}>{secondsToClock(seconds)}</h1>
                 }
             </div>
 
