@@ -64,13 +64,22 @@ export function Clock() {
     }
 
     const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if(e.key !== 'Enter' || e.currentTarget.valueAsNumber <= 0) return
+        if(e.key !== 'Enter') return
 
-        const newSeconds = e.currentTarget.valueAsNumber * 60
+        customize(Number(e.currentTarget.value))
+    }
+
+    const customize = (value: number) => {
+        if(isNaN(value) || value <= 0) return
+        const newSeconds = value * 60
         setCustomSeconds(newSeconds)
         setSeconds(newSeconds)
         setIsCustomizing(false)
         localStorage.setItem('savedSeconds', newSeconds.toString())
+    }
+
+    const verifyInput = (e: React.FormEvent<HTMLInputElement>) => {
+        e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.]/g, '')
     }
 
     return (
@@ -83,13 +92,13 @@ export function Clock() {
                 }
             </div>
 
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center my-2">
                 {
                     isCustomizing ?
                     <>
-                        <input autoFocus={true} className="fs-1 mb-2" type="number" defaultValue={customSeconds / 60} onKeyUp={(e) => handleEnter(e)} onChange={(e) => setCustomSeconds(e.currentTarget.valueAsNumber * 60)}/>
+                        <input autoFocus={true} className="fs-1" type="text" defaultValue={customSeconds / 60} onInput={verifyInput} onKeyUp={(e) => handleEnter(e)} onBlur={(e) => customize(Number(e.currentTarget.value))}/>
                     </> :
-                    <h1 className="text-light text-center fs-1 mb-2" onClick={handleCustomize}>{secondsToClock(seconds)}</h1>
+                    <h1 className="text-light text-center fs-1 m-0" onClick={handleCustomize}>{secondsToClock(seconds)}</h1>
                 }
             </div>
 

@@ -9,6 +9,8 @@ input {
 input {
   font-size: xx-large;
   font-family: "Jersey 10", sans-serif;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
 
 /* Remove the arrows */
