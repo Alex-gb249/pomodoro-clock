@@ -6,7 +6,7 @@ import { TaskManager } from './components/task-manager/TaskManager'
 import { useState } from 'react'
 
 function App() {
-  const [isSelectingTask, setIsSelectingTask] = useState(false)
+  const [isSelectingTask] = useState(false)
 
   return (
     <>
