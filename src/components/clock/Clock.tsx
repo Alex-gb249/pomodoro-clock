@@ -1,129 +1,147 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import './Clock.css'
-import { DEFAULT_BREAK_SECONDS, DEFAULT_SECONDS, getInitialIsBreak, initialSeconds, secondsToClock } from "../../utilities/ClockUtils"
+import {
+  DEFAULT_BREAK_SECONDS,
+  DEFAULT_SECONDS,
+  getInitialIsBreak,
+  initialSeconds,
+  secondsToClock,
+} from '../../utilities/ClockUtils'
 
 export function Clock() {
+  const [seconds, setSeconds] = useState<number>(initialSeconds())
+  const [isRunning, setIsRunning] = useState<boolean>(false)
+  const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
+  const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
+  const [isBreak, setIsBreak] = useState<boolean>(getInitialIsBreak())
 
-    const [seconds, setSeconds] = useState<number>(initialSeconds())
-    const [isRunning, setIsRunning] = useState<boolean>(false)
-    const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
-    const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
-    const [isBreak, setIsBreak] = useState<boolean>(getInitialIsBreak())
+  const stopTimer = () => {
+    setIsRunning(false)
+    localStorage.setItem('savedSeconds', seconds.toString())
+  }
 
-    const stopTimer = () => {
-        setIsRunning(false)
-        localStorage.setItem('savedSeconds', seconds.toString())
-    }
+  const startTimer = () => {
+    setIsRunning(true)
+    setSeconds(customSeconds)
+  }
 
-    const startTimer = () => {
-        setIsRunning(true)
-        setSeconds(customSeconds)
-    }
+  const resetTimer = () => {
+    setSeconds(customSeconds)
+    localStorage.setItem('savedSeconds', customSeconds.toString())
+  }
 
-    const resetTimer = () => {
-        setSeconds(customSeconds)
-        localStorage.setItem('savedSeconds', customSeconds.toString())
-    }
+  const resumeTimer = () => {
+    setIsRunning(true)
+  }
 
-    const resumeTimer = () => {
-        setIsRunning(true)
-    }
+  const turnPomodoro = () => {
+    setIsRunning(false)
 
-    const turnPomodoro = () => {
-        setIsRunning(false)
+    const newSetIsBreak = !isBreak
+    setIsBreak(newSetIsBreak)
 
-        const newSetIsBreak = !isBreak
-        setIsBreak(newSetIsBreak)
+    const newSeconds = newSetIsBreak ? DEFAULT_BREAK_SECONDS : DEFAULT_SECONDS
+    setSeconds(newSeconds)
+    setCustomSeconds(newSeconds)
 
-        const newSeconds = newSetIsBreak ? DEFAULT_BREAK_SECONDS : DEFAULT_SECONDS
+    localStorage.setItem('isBreak', newSetIsBreak.toString())
+    localStorage.setItem('savedSeconds', newSeconds.toString())
+  }
+
+  useEffect(() => {
+    if (!isRunning) return
+
+    const interval = setInterval(() => {
+      const newSeconds = seconds - 1
+      if (newSeconds === 0) {
+        turnPomodoro()
+      } else {
         setSeconds(newSeconds)
-        setCustomSeconds(newSeconds)
+      }
+    }, 1000)
 
-        localStorage.setItem('isBreak', newSetIsBreak.toString())
-        localStorage.setItem('savedSeconds', newSeconds.toString())
-    }
+    return () => clearInterval(interval)
+  })
 
-    useEffect(() => {
-        if(!isRunning) return
+  const handleCustomize = () => {
+    setIsRunning(false)
+    setIsCustomizing(true)
+  }
 
-        const interval = setInterval(() => {
-            const newSeconds = seconds - 1
-            if(newSeconds === 0) {
-                turnPomodoro()
-            } else {
-                setSeconds(newSeconds)
-            }
-        }, 1000)
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return
 
-        return () => clearInterval(interval)
-    })
+    customize(Number(e.currentTarget.value))
+  }
 
-    const handleCustomize = () => {
-        setIsRunning(false)
-        setIsCustomizing(true)
-    }
+  const customize = (value: number) => {
+    if (isNaN(value) || value <= 0) return
+    const newSeconds = value * 60
+    setCustomSeconds(newSeconds)
+    setSeconds(newSeconds)
+    setIsCustomizing(false)
+    localStorage.setItem('savedSeconds', newSeconds.toString())
+  }
 
-    const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if(e.key !== 'Enter') return
+  const verifyInput = (e: React.FormEvent<HTMLInputElement>) => {
+    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.]/g, '')
+  }
 
-        customize(Number(e.currentTarget.value))
-    }
+  return (
+    <div>
+      <div className='d-flex justify-content-center'>
+        {isBreak ? (
+          <span className='badge text-bg-info'>Break</span>
+        ) : (
+          <span className='badge text-bg-success'>Pomodoro</span>
+        )}
+      </div>
 
-    const customize = (value: number) => {
-        if(isNaN(value) || value <= 0) return
-        const newSeconds = value * 60
-        setCustomSeconds(newSeconds)
-        setSeconds(newSeconds)
-        setIsCustomizing(false)
-        localStorage.setItem('savedSeconds', newSeconds.toString())
-    }
+      <div className='d-flex justify-content-center my-2'>
+        {isCustomizing ? (
+          <>
+            <input
+              autoFocus={true}
+              className='fs-1'
+              type='text'
+              defaultValue={customSeconds / 60}
+              onInput={verifyInput}
+              onKeyUp={(e) => handleEnter(e)}
+              onBlur={(e) => customize(Number(e.currentTarget.value))}
+            />
+          </>
+        ) : (
+          <h1 className='text-light text-center clickable fs-1' onClick={handleCustomize}>
+            {secondsToClock(seconds)}
+          </h1>
+        )}
+      </div>
 
-    const verifyInput = (e: React.FormEvent<HTMLInputElement>) => {
-        e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.]/g, '')
-    }
-
-    return (
-        <div>
-            <div className="d-flex justify-content-center">
-                {
-                    isBreak ?
-                    <span className="badge text-bg-info">Break</span> :
-                    <span className="badge text-bg-success">Pomodoro</span>
-                }
-            </div>
-
-            <div className="d-flex justify-content-center my-2">
-                {
-                    isCustomizing ?
-                    <>
-                        <input autoFocus={true} className="fs-1" type="text" defaultValue={customSeconds / 60} onInput={verifyInput} onKeyUp={(e) => handleEnter(e)} onBlur={(e) => customize(Number(e.currentTarget.value))}/>
-                    </> :
-                    <h1 className="text-light text-center fs-1 m-0" onClick={handleCustomize}>{secondsToClock(seconds)}</h1>
-                }
-            </div>
-
-            <div className="d-flex justify-content-center">
-                {
-                    !isRunning && !isCustomizing && seconds == customSeconds ?
-                    <button onClick={startTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Play</button> :
-                    null
-                }
-                {
-                    isRunning && !isCustomizing ?
-                    <button onClick={stopTimer} className="btn btn-sm btn-outline-danger fw-bold border-3">Stop</button> :
-                    null
-                }
-                {
-                    !isRunning && !isCustomizing && seconds < customSeconds ?
-                    <button onClick={resetTimer} className="btn btn-sm btn-outline-success fw-bold border-3">Reset</button> :
-                    null
-                }
-                {
-                    !isRunning && !isCustomizing && seconds < customSeconds && seconds > 0 ?
-                    <button onClick={resumeTimer} className="btn btn-sm btn-outline-primary fw-bold border-3 ms-2">Resume</button> :
-                    null
-                }
-            </div>
-        </div>
-    )
+      <div className='d-flex justify-content-center'>
+        {!isRunning && !isCustomizing && seconds == customSeconds ? (
+          <button onClick={startTimer} className='btn btn-sm btn-outline-success fw-bold border-3'>
+            Play
+          </button>
+        ) : null}
+        {isRunning && !isCustomizing ? (
+          <button onClick={stopTimer} className='btn btn-sm btn-outline-danger fw-bold border-3'>
+            Stop
+          </button>
+        ) : null}
+        {!isRunning && !isCustomizing && seconds < customSeconds ? (
+          <button onClick={resetTimer} className='btn btn-sm btn-outline-success fw-bold border-3'>
+            Reset
+          </button>
+        ) : null}
+        {!isRunning && !isCustomizing && seconds < customSeconds && seconds > 0 ? (
+          <button
+            onClick={resumeTimer}
+            className='btn btn-sm btn-outline-primary fw-bold border-3 ms-2'
+          >
+            Resume
+          </button>
+        ) : null}
+      </div>
+    </div>
+  )
 }

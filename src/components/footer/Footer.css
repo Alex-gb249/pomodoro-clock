@@ -1,7 +1,3 @@
-.source-link {
-  text-decoration: none;
-}
-
 .source-link:hover {
   text-decoration: underline;
 }
