@@ -1,6 +1,6 @@
 import './Header.css'
 
-export const Header = () => {
+export function Header() {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
