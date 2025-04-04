@@ -1,7 +1,14 @@
+import { useContext } from 'react'
 import './Header.css'
+import { PomodoroContext } from '../../contexts/Pomodoro'
 
 export function Header() {
-  const handleClick = () => {}
+  const { isSelectingTask, setIsSelectingTask } = useContext(PomodoroContext)
+
+  const handleClick = () => {
+    const newIsSelectingTask = !isSelectingTask
+    setIsSelectingTask(newIsSelectingTask)
+  }
 
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
