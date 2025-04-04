@@ -1,19 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import './Clock.css'
-import {
-  DEFAULT_BREAK_SECONDS,
-  DEFAULT_SECONDS,
-  getInitialIsBreak,
-  initialSeconds,
-  secondsToClock,
-} from '../../utilities/ClockUtils'
+import { DEFAULT_BREAK_SECONDS, DEFAULT_SECONDS, secondsToClock } from '../../utilities/ClockUtils'
+import { PomodoroContext } from '../../contexts/Pomodoro'
 
 export function Clock() {
-  const [seconds, setSeconds] = useState<number>(initialSeconds())
-  const [isRunning, setIsRunning] = useState<boolean>(false)
-  const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
-  const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
-  const [isBreak, setIsBreak] = useState<boolean>(getInitialIsBreak())
+  const {
+    seconds,
+    setSeconds,
+    isRunning,
+    setIsRunning,
+    isCustomizing,
+    setIsCustomizing,
+    customSeconds,
+    setCustomSeconds,
+    isBreak,
+    setIsBreak,
+  } = useContext(PomodoroContext)
 
   const stopTimer = () => {
     setIsRunning(false)
