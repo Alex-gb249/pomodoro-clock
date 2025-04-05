@@ -104,7 +104,7 @@ export function Clock() {
           <>
             <input
               autoFocus={true}
-              className='fs-1'
+              className='fs-1 clock-input'
               type='text'
               defaultValue={customSeconds / 60}
               onInput={verifyInput}

@@ -1,0 +1,15 @@
+.list-group {
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.task-input {
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+}
+
+.description-input {
+  min-height: 40px;
+  height: 40px;
+}
