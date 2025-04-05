@@ -1,9 +1,13 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Task } from './Task'
 import './TaskManager.css'
 import { initialTasks } from '../../utilities/TasksUtils'
+import { PomodoroContext } from '../../contexts/Pomodoro'
+import { Clock } from './components/clock/Clock'
 
 export function TaskManager() {
+  const { isSelectingTask } = useContext(PomodoroContext)
+
   const [tasks, setTasks] = useState<Task[]>(initialTasks())
   const [isCreating, setIsCreating] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
@@ -43,7 +47,7 @@ export function TaskManager() {
     }
   }
 
-  return (
+  return isSelectingTask ? (
     <div className='card' style={{ width: '24rem' }}>
       <div className='card-body d-flex justify-content-center'>
         <h1>Your's tasks</h1>
@@ -129,5 +133,7 @@ export function TaskManager() {
         )}
       </div>
     </div>
+  ) : (
+    <Clock />
   )
 }

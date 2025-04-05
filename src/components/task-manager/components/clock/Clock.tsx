@@ -1,7 +1,11 @@
 import { useContext, useEffect } from 'react'
 import './Clock.css'
-import { DEFAULT_BREAK_SECONDS, DEFAULT_SECONDS, secondsToClock } from '../../utilities/ClockUtils'
-import { PomodoroContext } from '../../contexts/Pomodoro'
+import {
+  DEFAULT_BREAK_SECONDS,
+  DEFAULT_SECONDS,
+  secondsToClock,
+} from '../../../../utilities/ClockUtils'
+import { PomodoroContext } from '../../../../contexts/Pomodoro'
 
 export function Clock() {
   const {
