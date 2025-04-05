@@ -2,6 +2,8 @@ import { createContext, useState } from 'react'
 import { getInitialIsBreak, initialSeconds } from '../utilities/ClockUtils'
 
 const DEFAULT_CONTEXT = {
+  isSelectingTask: false,
+  setIsSelectingTask: () => {},
   seconds: initialSeconds(),
   setSeconds: () => {},
   isRunning: false,
@@ -17,6 +19,8 @@ const DEFAULT_CONTEXT = {
 export const PomodoroContext = createContext<PomodoroContextType>(DEFAULT_CONTEXT)
 
 export interface PomodoroContextType {
+  isSelectingTask: boolean
+  setIsSelectingTask: (isSelectingTask: boolean) => void
   seconds: number
   setSeconds: (seconds: number) => void
   isRunning: boolean
@@ -30,6 +34,7 @@ export interface PomodoroContextType {
 }
 
 export function PomodoroProvider({ children }: { children: React.ReactNode }) {
+  const [isSelectingTask, setIsSelectingTask] = useState(false)
   const [seconds, setSeconds] = useState<number>(initialSeconds())
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
@@ -39,6 +44,8 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
   return (
     <PomodoroContext.Provider
       value={{
+        isSelectingTask,
+        setIsSelectingTask,
         seconds,
         setSeconds,
         isRunning,
