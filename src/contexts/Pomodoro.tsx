@@ -34,7 +34,7 @@ export interface PomodoroContextType {
 }
 
 export function PomodoroProvider({ children }: { children: React.ReactNode }) {
-  const [isSelectingTask, setIsSelectingTask] = useState(false)
+  const [isSelectingTask, setIsSelectingTask] = useState(true)
   const [seconds, setSeconds] = useState<number>(initialSeconds())
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
