@@ -6,7 +6,7 @@ import { Clock } from './components/clock/Clock'
 import { TasksContext } from '../../contexts/Tasks'
 
 export function TaskManager() {
-  const { isSelectingTask } = useContext(PomodoroContext)
+  const { isSelectingTask, setIsSelectingTask } = useContext(PomodoroContext)
 
   const {
     tasks,
@@ -17,6 +17,8 @@ export function TaskManager() {
     setNewTaskName,
     newTaskDescription,
     setNewTaskDescription,
+    currentTask,
+    setCurrentTask,
   } = useContext(TasksContext)
 
   const handleCreate = () => {
@@ -53,6 +55,13 @@ export function TaskManager() {
     }
   }
 
+  const handleCurrentTask = (task: Task) => {
+    setIsCreating(false)
+    setCurrentTask(task)
+    setIsSelectingTask(false)
+    localStorage.setItem('currentTask', JSON.stringify(task))
+  }
+
   return isSelectingTask ? (
     <div className='card' style={{ width: '24rem' }}>
       <div className='card-body d-flex justify-content-center'>
@@ -63,10 +72,15 @@ export function TaskManager() {
           {tasks.map((task) => (
             <li
               key={task.getId()}
-              className='list-group-item d-flex justify-content-between align-items-center'
+              className={`list-group-item d-flex justify-content-between align-items-center ${task.getId() === currentTask?.getId() ? 'bg-secondary-subtle text-primary-emphasis' : ''}`}
             >
               <div>
-                {task.getName()}
+                <a
+                  className='card-text fw-bold clickable m-0'
+                  onClick={() => handleCurrentTask(task)}
+                >
+                  {task.getName()}
+                </a>
                 {task.getDescription() && (
                   <p className='card-text'>
                     <small className='text-body-secondary'>{task.getDescription()}</small>
