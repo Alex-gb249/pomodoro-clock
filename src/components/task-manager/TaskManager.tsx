@@ -1,17 +1,23 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Task } from './Task'
 import './TaskManager.css'
-import { initialTasks } from '../../utilities/TasksUtils'
 import { PomodoroContext } from '../../contexts/Pomodoro'
 import { Clock } from './components/clock/Clock'
+import { TasksContext } from '../../contexts/Tasks'
 
 export function TaskManager() {
   const { isSelectingTask } = useContext(PomodoroContext)
 
-  const [tasks, setTasks] = useState<Task[]>(initialTasks())
-  const [isCreating, setIsCreating] = useState(false)
-  const [newTaskName, setNewTaskName] = useState('')
-  const [newTaskDescription, setNewTaskDescription] = useState('')
+  const {
+    tasks,
+    setTasks,
+    isCreating,
+    setIsCreating,
+    newTaskName,
+    setNewTaskName,
+    newTaskDescription,
+    setNewTaskDescription,
+  } = useContext(TasksContext)
 
   const handleCreate = () => {
     setIsCreating(true)
