@@ -6,8 +6,8 @@ export class Task {
   private description: string
   private active: boolean
 
-  constructor(name: string, description: string, active: boolean) {
-    this.id = uuidv4()
+  constructor(name: string, description: string, active: boolean, id?: string) {
+    this.id = id ? id : uuidv4()
     this.name = name
     this.description = description
     this.active = active

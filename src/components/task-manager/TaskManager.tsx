@@ -1,14 +1,10 @@
 import { useState } from 'react'
 import { Task } from './Task'
 import './TaskManager.css'
+import { initialTasks } from '../../utilities/TasksUtils'
 
 export function TaskManager() {
-  const [tasks, setTasks] = useState<Task[]>([
-    new Task('Programming', 'Please learn react and program', true),
-    new Task('Study', 'Please study react and program', true),
-    new Task('Exercise', '', true),
-    new Task('Eat', 'Please eat and program', true),
-  ])
+  const [tasks, setTasks] = useState<Task[]>(initialTasks())
   const [isCreating, setIsCreating] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
   const [newTaskDescription, setNewTaskDescription] = useState('')
@@ -26,6 +22,8 @@ export function TaskManager() {
 
     const newTask = new Task(newTaskName, newTaskDescription, true)
     const newTasks = [...tasks, newTask]
+
+    localStorage.setItem('tasks', JSON.stringify(newTasks))
     setTasks(newTasks)
     setNewTaskName('')
     setNewTaskDescription('')
@@ -34,6 +32,8 @@ export function TaskManager() {
 
   const handleDelete = (taskId: string) => {
     const newTasks = tasks.filter((task) => task.getId() !== taskId)
+
+    localStorage.setItem('tasks', JSON.stringify(newTasks))
     setTasks(newTasks)
   }
 
