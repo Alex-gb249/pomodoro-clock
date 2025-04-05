@@ -47,6 +47,11 @@ export function TaskManager() {
 
     localStorage.setItem('tasks', JSON.stringify(newTasks))
     setTasks(newTasks)
+
+    if (taskId === currentTask?.getId()) {
+      setCurrentTask(null)
+      localStorage.removeItem('currentTask')
+    }
   }
 
   const handleEnter = (e: React.KeyboardEvent) => {
