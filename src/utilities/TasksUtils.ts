@@ -17,3 +17,10 @@ export const initialTasks = () => {
   if (parsedTasks.length > 0) return parsedTasks
   return DEFAULT_TASKS
 }
+
+export const initialCurrentTask = () => {
+  const savedTask = JSON.parse(localStorage.getItem('currentTask') || 'null')
+  if (savedTask)
+    return new Task(savedTask.name, savedTask.description, savedTask.active, savedTask.id)
+  return null
+}

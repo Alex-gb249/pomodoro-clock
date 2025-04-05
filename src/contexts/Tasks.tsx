@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 import { Task } from '../components/task-manager/Task'
-import { initialTasks } from '../utilities/TasksUtils'
+import { initialCurrentTask, initialTasks } from '../utilities/TasksUtils'
 
 const DEFAULT_CONTEXT = {
   tasks: initialTasks(),
@@ -11,6 +11,8 @@ const DEFAULT_CONTEXT = {
   setNewTaskName: () => {},
   newTaskDescription: '',
   setNewTaskDescription: () => {},
+  currentTask: null,
+  setCurrentTask: () => {},
 }
 
 export const TasksContext = createContext<TasksContextType>(DEFAULT_CONTEXT)
@@ -24,6 +26,8 @@ export interface TasksContextType {
   setNewTaskName: (newTaskName: string) => void
   newTaskDescription: string
   setNewTaskDescription: (newTaskDescription: string) => void
+  currentTask: Task | null
+  setCurrentTask: (currentTask: Task | null) => void
 }
 
 export function TasksContextProvider({ children }: { children: React.ReactNode }) {
@@ -31,6 +35,7 @@ export function TasksContextProvider({ children }: { children: React.ReactNode }
   const [isCreating, setIsCreating] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
   const [newTaskDescription, setNewTaskDescription] = useState('')
+  const [currentTask, setCurrentTask] = useState<Task | null>(initialCurrentTask())
 
   return (
     <TasksContext.Provider
@@ -43,6 +48,8 @@ export function TasksContextProvider({ children }: { children: React.ReactNode }
         setNewTaskName,
         newTaskDescription,
         setNewTaskDescription,
+        currentTask,
+        setCurrentTask,
       }}
     >
       {children}

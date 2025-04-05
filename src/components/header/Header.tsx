@@ -1,9 +1,11 @@
 import { useContext } from 'react'
 import './Header.css'
 import { PomodoroContext } from '../../contexts/Pomodoro'
+import { TasksContext } from '../../contexts/Tasks'
 
 export function Header() {
   const { isSelectingTask, setIsSelectingTask } = useContext(PomodoroContext)
+  const { currentTask } = useContext(TasksContext)
 
   const handleClick = () => {
     const newIsSelectingTask = !isSelectingTask
@@ -19,7 +21,7 @@ export function Header() {
         </div>
         {!isSelectingTask && (
           <div className='d-flex align-items-center'>
-            <h3 className='me-2'>Dummy current task name</h3>
+            {currentTask && <h3 className='me-2'>{currentTask.getName()}</h3>}
             <a className='clickable' onClick={handleClick}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
