@@ -1,12 +1,9 @@
-input {
+.clock-input {
   border: none;
   background: unset;
   box-sizing: unset;
   width: 6ch;
   text-align: center;
-}
-
-input {
   font-size: xx-large;
   font-family: "Jersey 10", sans-serif;
   background-color: rgba(0, 0, 0, 0.2);
@@ -16,13 +13,13 @@ input {
 /* Remove the arrows */
 
 /* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+.clock-input::-webkit-outer-spin-button,
+.clock-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
+.clock-input[type=number] {
   -moz-appearance: textfield;
 }
