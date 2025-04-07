@@ -124,29 +124,29 @@ export function Clock() {
       </div>
 
       <div className='d-flex justify-content-center'>
-        {!isRunning && !isCustomizing && seconds == customSeconds ? (
+        {!isRunning && !isCustomizing && seconds == customSeconds && (
           <button onClick={startTimer} className='btn btn-sm btn-outline-success fw-bold border-3'>
             Play
           </button>
-        ) : null}
-        {isRunning && !isCustomizing ? (
+        )}
+        {isRunning && !isCustomizing && (
           <button onClick={stopTimer} className='btn btn-sm btn-outline-danger fw-bold border-3'>
             Stop
           </button>
-        ) : null}
-        {!isRunning && !isCustomizing && seconds < customSeconds ? (
+        )}
+        {!isRunning && !isCustomizing && seconds < customSeconds && (
           <button onClick={resetTimer} className='btn btn-sm btn-outline-success fw-bold border-3'>
             Reset
           </button>
-        ) : null}
-        {!isRunning && !isCustomizing && seconds < customSeconds && seconds > 0 ? (
+        )}
+        {!isRunning && !isCustomizing && seconds < customSeconds && seconds > 0 && (
           <button
             onClick={resumeTimer}
             className='btn btn-sm btn-outline-primary fw-bold border-3 ms-2'
           >
             Resume
           </button>
-        ) : null}
+        )}
       </div>
     </div>
   )
