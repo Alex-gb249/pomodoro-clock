@@ -3,6 +3,8 @@ import { Task } from '../models/Task'
 import { initialCurrentTask, initialTasks } from '../utilities/TasksUtils'
 
 const DEFAULT_CONTEXT = {
+  isSelectingTask: false,
+  setIsSelectingTask: () => {},
   tasks: initialTasks(),
   setTasks: () => {},
   isCreating: false,
@@ -18,6 +20,8 @@ const DEFAULT_CONTEXT = {
 export const TasksContext = createContext<TasksContextType>(DEFAULT_CONTEXT)
 
 export interface TasksContextType {
+  isSelectingTask: boolean
+  setIsSelectingTask: (isSelectingTask: boolean) => void
   tasks: Task[]
   setTasks: (tasks: Task[]) => void
   isCreating: boolean
@@ -31,6 +35,7 @@ export interface TasksContextType {
 }
 
 export function TasksContextProvider({ children }: { children: React.ReactNode }) {
+  const [isSelectingTask, setIsSelectingTask] = useState(true)
   const [tasks, setTasks] = useState<Task[]>(initialTasks())
   const [isCreating, setIsCreating] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
@@ -40,6 +45,8 @@ export function TasksContextProvider({ children }: { children: React.ReactNode }
   return (
     <TasksContext.Provider
       value={{
+        isSelectingTask,
+        setIsSelectingTask,
         tasks,
         setTasks,
         isCreating,
