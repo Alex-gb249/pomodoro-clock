@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react'
-import { getInitialIsBreak, initialSeconds } from '../utilities/ClockUtils'
+import { initialIsBreak, initialSeconds } from '../utilities/ClockUtils'
 
 const DEFAULT_CONTEXT = {
   isSelectingTask: false,
@@ -12,7 +12,7 @@ const DEFAULT_CONTEXT = {
   setIsCustomizing: () => {},
   customSeconds: initialSeconds(),
   setCustomSeconds: () => {},
-  isBreak: getInitialIsBreak(),
+  isBreak: initialIsBreak(),
   setIsBreak: () => {},
 }
 
@@ -39,7 +39,7 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
   const [isRunning, setIsRunning] = useState<boolean>(false)
   const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
   const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
-  const [isBreak, setIsBreak] = useState<boolean>(getInitialIsBreak())
+  const [isBreak, setIsBreak] = useState<boolean>(initialIsBreak())
 
   return (
     <PomodoroContext.Provider
