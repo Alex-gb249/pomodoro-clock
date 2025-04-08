@@ -5,7 +5,7 @@ import { PomodoroContext } from '../../contexts/Pomodoro'
 import { Clock } from './components/clock/Clock'
 import { TasksContext } from '../../contexts/Tasks'
 import Check from '../../assets/Check'
-import X from '../../assets/X'
+import Cancel from '../../assets/Cancel'
 import Plus from '../../assets/Plus'
 import Trash from '../../assets/Trash'
 
@@ -132,7 +132,7 @@ export function TaskManager() {
               <Check />
             </a>
             <a className='clickable text-danger' onClick={handleCancel}>
-              <X />
+              <Cancel />
             </a>
           </>
         ) : (

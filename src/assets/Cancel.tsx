@@ -1,4 +1,4 @@
-export default function X() {
+export default function Cancel() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
