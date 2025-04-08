@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { Task } from '../../models/Task'
 import './TaskManager.css'
-import { PomodoroContext } from '../../contexts/Pomodoro'
 import { Clock } from './components/clock/Clock'
 import { TasksContext } from '../../contexts/Tasks'
 import Check from '../../assets/Check'
@@ -10,9 +9,9 @@ import Plus from '../../assets/Plus'
 import Trash from '../../assets/Trash'
 
 export function TaskManager() {
-  const { isSelectingTask, setIsSelectingTask } = useContext(PomodoroContext)
-
   const {
+    isSelectingTask,
+    setIsSelectingTask,
     tasks,
     setTasks,
     isCreating,
