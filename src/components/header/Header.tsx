@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import './Header.css'
 import { PomodoroContext } from '../../contexts/Pomodoro'
 import { TasksContext } from '../../contexts/Tasks'
-import Check from '../../assets/Check'
+import Checklist from '../../assets/Checklist'
 
 export function Header() {
   const { isSelectingTask, setIsSelectingTask } = useContext(PomodoroContext)
@@ -24,7 +24,7 @@ export function Header() {
           <div className='d-flex align-items-center'>
             {currentTask && <h3 className='me-2'>{currentTask.getName()}</h3>}
             <a className='clickable' onClick={handleClick}>
-              <Check />
+              <Checklist />
             </a>
           </div>
         )}
