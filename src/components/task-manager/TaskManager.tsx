@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { Task } from './Task'
+import { Task } from '../../models/Task'
 import './TaskManager.css'
 import { PomodoroContext } from '../../contexts/Pomodoro'
 import { Clock } from './components/clock/Clock'

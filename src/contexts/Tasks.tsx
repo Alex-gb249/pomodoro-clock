@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react'
-import { Task } from '../components/task-manager/Task'
+import { Task } from '../models/Task'
 import { initialCurrentTask, initialTasks } from '../utilities/TasksUtils'
 
 const DEFAULT_CONTEXT = {

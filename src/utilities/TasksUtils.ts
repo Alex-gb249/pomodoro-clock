@@ -1,4 +1,4 @@
-import { Task } from '../components/task-manager/Task'
+import { Task } from '../models/Task'
 
 export const DEFAULT_TASKS: Task[] = [
   new Task(
