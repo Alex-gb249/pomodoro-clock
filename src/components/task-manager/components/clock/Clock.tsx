@@ -81,7 +81,7 @@ export function Clock() {
   }
 
   const customize = (value: number) => {
-    if (isNaN(value) || value <= 0) return
+    if (isNaN(value) || value <= 0 || value > 1440) return
     const newSeconds = value * 60
     setCustomSeconds(newSeconds)
     setSeconds(newSeconds)
