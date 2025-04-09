@@ -1,12 +1,10 @@
 import { useContext } from 'react'
 import './Header.css'
-import { PomodoroContext } from '../../contexts/Pomodoro'
 import { TasksContext } from '../../contexts/Tasks'
 import Checklist from '../../assets/Checklist'
 
 export function Header() {
-  const { isSelectingTask, setIsSelectingTask } = useContext(PomodoroContext)
-  const { currentTask } = useContext(TasksContext)
+  const { isSelectingTask, setIsSelectingTask, currentTask } = useContext(TasksContext)
 
   const handleClick = () => {
     const newIsSelectingTask = !isSelectingTask
