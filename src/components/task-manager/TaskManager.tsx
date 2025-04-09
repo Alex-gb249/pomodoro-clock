@@ -82,7 +82,7 @@ export function TaskManager() {
               key={task.getId()}
               className={`list-group-item d-flex justify-content-between align-items-center ${task.getId() === currentTask?.getId() ? 'bg-secondary-subtle text-primary-emphasis' : ''}`}
             >
-              <div>
+              <div className='me-2'>
                 <a
                   className='card-text fw-bold clickable m-0'
                   onClick={() => handleCurrentTask(task)}
