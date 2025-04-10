@@ -35,12 +35,12 @@ export interface TasksContextType {
 }
 
 export function TasksContextProvider({ children }: { children: React.ReactNode }) {
-  const [isSelectingTask, setIsSelectingTask] = useState(true)
+  const [currentTask, setCurrentTask] = useState<Task | null>(initialCurrentTask())
   const [tasks, setTasks] = useState<Task[]>(initialTasks())
   const [isCreating, setIsCreating] = useState(false)
   const [newTaskName, setNewTaskName] = useState('')
   const [newTaskDescription, setNewTaskDescription] = useState('')
-  const [currentTask, setCurrentTask] = useState<Task | null>(initialCurrentTask())
+  const [isSelectingTask, setIsSelectingTask] = useState(currentTask === null)
 
   return (
     <TasksContext.Provider
