@@ -15,6 +15,7 @@ export const initialTasks = () => {
   })
 
   if (parsedTasks.length > 0) return parsedTasks
+  localStorage.setItem('tasks', JSON.stringify(DEFAULT_TASKS))
   return DEFAULT_TASKS
 }
 
