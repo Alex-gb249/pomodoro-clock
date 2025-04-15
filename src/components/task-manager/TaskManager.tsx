@@ -106,6 +106,7 @@ export function TaskManager() {
                 type='text'
                 className='task-input px-2 mb-2'
                 placeholder='Task name'
+                autoFocus={true}
                 onChange={(e) => setNewTaskName(e.currentTarget.value)}
                 onKeyUp={(e) => handleEnter(e)}
               />
