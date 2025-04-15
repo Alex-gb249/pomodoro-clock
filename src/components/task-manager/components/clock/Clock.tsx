@@ -109,7 +109,7 @@ export function Clock() {
             <input
               autoFocus={true}
               className='fs-1 clock-input'
-              type='text'
+              type='number'
               defaultValue={customSeconds / 60}
               onInput={verifyInput}
               onKeyUp={(e) => handleEnter(e)}
