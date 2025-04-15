@@ -51,6 +51,8 @@ export function Clock() {
     setSeconds(newSeconds)
     setCustomSeconds(newSeconds)
 
+    document.documentElement.setAttribute('data-bs-theme', newSetIsBreak ? 'dark' : 'light')
+
     localStorage.setItem('isBreak', newSetIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
   }
@@ -69,6 +71,10 @@ export function Clock() {
 
     return () => clearInterval(interval)
   })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-bs-theme', isBreak ? 'dark' : 'light')
+  }, [])
 
   const handleCustomize = () => {
     setIsRunning(false)
@@ -124,7 +130,7 @@ export function Clock() {
             />
           </>
         ) : (
-          <h1 className='text-light text-center clickable fs-1' onClick={handleCustomize}>
+          <h1 className='text-center clickable fs-1' onClick={handleCustomize}>
             {secondsToClock(seconds)}
           </h1>
         )}
@@ -154,9 +160,11 @@ export function Clock() {
             Resume
           </button>
         )}
-        <a className='clickable text-secondary ms-2' onClick={handleSkip}>
-          <Skip />
-        </a>
+        {!isCustomizing && (
+          <a className='clickable text-secondary ms-2' onClick={handleSkip}>
+            <Skip />
+          </a>
+        )}
       </div>
     </div>
   )
