@@ -110,7 +110,7 @@ export function Clock() {
     <div>
       <div className='d-flex justify-content-center'>
         {isBreak ? (
-          <span className='badge text-bg-info'>Break</span>
+          <span className='badge text-bg-primary'>Break</span>
         ) : (
           <span className='badge text-bg-success'>Pomodoro</span>
         )}
