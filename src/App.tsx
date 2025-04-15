@@ -6,7 +6,7 @@ import { TaskManager } from './components/task-manager/TaskManager'
 function App() {
   return (
     <>
-      <div className='all'>
+      <div className='all prevent-select'>
         <Header />
         <div className='d-flex justify-content-center align-items-center'>
           <TaskManager />
