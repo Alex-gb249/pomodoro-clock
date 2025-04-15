@@ -59,7 +59,7 @@ export function Clock() {
 
     const interval = setInterval(() => {
       const newSeconds = seconds - 1
-      if (newSeconds === 0) {
+      if (newSeconds <= 0) {
         turnPomodoro()
       } else {
         setSeconds(newSeconds)
@@ -90,7 +90,7 @@ export function Clock() {
   }
 
   const verifyInput = (e: React.FormEvent<HTMLInputElement>) => {
-    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9.]/g, '')
+    e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '')
   }
 
   return (
