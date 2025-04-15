@@ -6,6 +6,7 @@ import {
   secondsToClock,
 } from '../../../../utilities/ClockUtils'
 import { PomodoroContext } from '../../../../contexts/Pomodoro'
+import Skip from '../../../../assets/Skip'
 
 export function Clock() {
   const {
@@ -93,6 +94,12 @@ export function Clock() {
     e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '')
   }
 
+  const handleSkip = () => {
+    setIsRunning(false)
+    setSeconds(0)
+    turnPomodoro()
+  }
+
   return (
     <div>
       <div className='d-flex justify-content-center'>
@@ -123,7 +130,7 @@ export function Clock() {
         )}
       </div>
 
-      <div className='d-flex justify-content-center'>
+      <div className='d-flex justify-content-center align-items-center'>
         {!isRunning && !isCustomizing && seconds == customSeconds && (
           <button onClick={startTimer} className='btn btn-sm btn-outline-success fw-bold border-3'>
             Play
@@ -147,6 +154,9 @@ export function Clock() {
             Resume
           </button>
         )}
+        <a className='clickable text-secondary ms-2' onClick={handleSkip}>
+          <Skip />
+        </a>
       </div>
     </div>
   )
