@@ -8,6 +8,9 @@ import {
 import { PomodoroContext } from '../../../../contexts/Pomodoro'
 import Skip from '../../../../assets/Skip'
 import { Theme } from '../../../../models/Themes'
+import Moon from '../../../../assets/Moon'
+import Sun from '../../../../assets/Sun'
+import SunMoon from '../../../../assets/SunMoon'
 
 export function Clock() {
   const {
@@ -54,8 +57,7 @@ export function Clock() {
     setSeconds(newSeconds)
     setCustomSeconds(newSeconds)
 
-    const newTheme = turnNewTheme(themeMode, newSetIsBreak)
-    setThemeMode(newTheme)
+    turnNewTheme(themeMode, newSetIsBreak)
 
     localStorage.setItem('isBreak', newSetIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
@@ -64,7 +66,6 @@ export function Clock() {
   const turnNewTheme = (themeMode: Theme, isBreak: boolean) => {
     const newTheme = themeMode === Theme.DYNAMIC ? (isBreak ? Theme.DARK : Theme.LIGHT) : themeMode
     document.getElementById('body')?.setAttribute('data-bs-theme', newTheme)
-    return newTheme
   }
 
   const handleThemeMode = (themeMode: Theme) => {
@@ -154,7 +155,7 @@ export function Clock() {
       <div className='d-flex justify-content-center align-items-center'>
         {!isCustomizing && themeMode === Theme.DARK && (
           <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.LIGHT)}>
-            DARK
+            <Moon />
           </a>
         )}
         {!isCustomizing && themeMode === Theme.LIGHT && (
@@ -162,12 +163,12 @@ export function Clock() {
             className='clickable text-secondary me-2'
             onClick={() => handleThemeMode(Theme.DYNAMIC)}
           >
-            LIGHT
+            <Sun />
           </a>
         )}
         {!isCustomizing && themeMode === Theme.DYNAMIC && (
           <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.DARK)}>
-            DYNAMIC{' '}
+            <SunMoon />
           </a>
         )}
         {!isRunning && !isCustomizing && seconds == customSeconds && (
