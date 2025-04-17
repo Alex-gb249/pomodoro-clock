@@ -6,13 +6,16 @@ import './index.css'
 import App from './App.tsx'
 import { PomodoroProvider } from './contexts/Pomodoro.tsx'
 import { TasksContextProvider } from './contexts/Tasks.tsx'
+import { ThemeContextProvider } from './contexts/Theme.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <PomodoroProvider>
-      <TasksContextProvider>
-        <App />
-      </TasksContextProvider>
-    </PomodoroProvider>
+    <ThemeContextProvider>
+      <PomodoroProvider>
+        <TasksContextProvider>
+          <App />
+        </TasksContextProvider>
+      </PomodoroProvider>
+    </ThemeContextProvider>
   </StrictMode>,
 )
