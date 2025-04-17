@@ -7,6 +7,10 @@ import {
 } from '../../../../utilities/ClockUtils'
 import { PomodoroContext } from '../../../../contexts/Pomodoro'
 import Skip from '../../../../assets/Skip'
+import { Theme } from '../../../../models/Themes'
+import Moon from '../../../../assets/Moon'
+import Sun from '../../../../assets/Sun'
+import SunMoon from '../../../../assets/SunMoon'
 
 export function Clock() {
   const {
@@ -20,6 +24,8 @@ export function Clock() {
     setCustomSeconds,
     isBreak,
     setIsBreak,
+    themeMode,
+    setThemeMode,
   } = useContext(PomodoroContext)
 
   const stopTimer = () => {
@@ -51,10 +57,20 @@ export function Clock() {
     setSeconds(newSeconds)
     setCustomSeconds(newSeconds)
 
-    document.getElementById('body')?.setAttribute('data-bs-theme', newSetIsBreak ? 'dark' : 'light')
+    turnNewTheme(themeMode, newSetIsBreak)
 
     localStorage.setItem('isBreak', newSetIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
+  }
+
+  const turnNewTheme = (themeMode: Theme, isBreak: boolean) => {
+    const newTheme = themeMode === Theme.DYNAMIC ? (isBreak ? Theme.DARK : Theme.LIGHT) : themeMode
+    document.getElementById('body')?.setAttribute('data-bs-theme', newTheme)
+  }
+
+  const handleThemeMode = (themeMode: Theme) => {
+    turnNewTheme(themeMode, isBreak)
+    setThemeMode(themeMode)
   }
 
   useEffect(() => {
@@ -73,7 +89,7 @@ export function Clock() {
   })
 
   useEffect(() => {
-    document.getElementById('body')?.setAttribute('data-bs-theme', isBreak ? 'dark' : 'light')
+    turnNewTheme(themeMode, isBreak)
   }, [])
 
   const handleCustomize = () => {
@@ -137,6 +153,24 @@ export function Clock() {
       </div>
 
       <div className='d-flex justify-content-center align-items-center'>
+        {!isCustomizing && themeMode === Theme.DARK && (
+          <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.LIGHT)}>
+            <Moon />
+          </a>
+        )}
+        {!isCustomizing && themeMode === Theme.LIGHT && (
+          <a
+            className='clickable text-secondary me-2'
+            onClick={() => handleThemeMode(Theme.DYNAMIC)}
+          >
+            <Sun />
+          </a>
+        )}
+        {!isCustomizing && themeMode === Theme.DYNAMIC && (
+          <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.DARK)}>
+            <SunMoon />
+          </a>
+        )}
         {!isRunning && !isCustomizing && seconds == customSeconds && (
           <button onClick={startTimer} className='btn btn-sm btn-outline-success fw-bold border-3'>
             Play
