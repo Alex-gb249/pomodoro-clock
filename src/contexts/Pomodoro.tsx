@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react'
 import { initialIsBreak, initialSeconds } from '../utilities/ClockUtils'
-import { Theme } from '../models/Themes'
 
 const DEFAULT_CONTEXT = {
   seconds: initialSeconds(),
@@ -13,8 +12,6 @@ const DEFAULT_CONTEXT = {
   setCustomSeconds: () => {},
   isBreak: initialIsBreak(),
   setIsBreak: () => {},
-  themeMode: Theme.DYNAMIC,
-  setThemeMode: () => {},
 }
 
 export const PomodoroContext = createContext<PomodoroContextType>(DEFAULT_CONTEXT)
@@ -30,8 +27,6 @@ export interface PomodoroContextType {
   setCustomSeconds: (customSeconds: number) => void
   isBreak: boolean
   setIsBreak: (isBreak: boolean) => void
-  themeMode: Theme
-  setThemeMode: (newTheme: Theme) => void
 }
 
 export function PomodoroProvider({ children }: { children: React.ReactNode }) {
@@ -40,7 +35,6 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
   const [isCustomizing, setIsCustomizing] = useState<boolean>(false)
   const [customSeconds, setCustomSeconds] = useState<number>(initialSeconds())
   const [isBreak, setIsBreak] = useState<boolean>(initialIsBreak())
-  const [themeMode, setThemeMode] = useState<Theme>(Theme.DYNAMIC)
 
   return (
     <PomodoroContext.Provider
@@ -55,8 +49,6 @@ export function PomodoroProvider({ children }: { children: React.ReactNode }) {
         setCustomSeconds,
         isBreak,
         setIsBreak,
-        themeMode,
-        setThemeMode,
       }}
     >
       {children}

@@ -11,6 +11,8 @@ import { Theme } from '../../../../models/Themes'
 import Moon from '../../../../assets/Moon'
 import Sun from '../../../../assets/Sun'
 import SunMoon from '../../../../assets/SunMoon'
+import { ThemeContext } from '../../../../contexts/Theme'
+import { turnNewTheme } from '../../../../utilities/ThemeUtils'
 
 export function Clock() {
   const {
@@ -24,9 +26,9 @@ export function Clock() {
     setCustomSeconds,
     isBreak,
     setIsBreak,
-    themeMode,
-    setThemeMode,
   } = useContext(PomodoroContext)
+
+  const { themeMode, setThemeMode } = useContext(ThemeContext)
 
   const stopTimer = () => {
     setIsRunning(false)
@@ -63,14 +65,9 @@ export function Clock() {
     localStorage.setItem('savedSeconds', newSeconds.toString())
   }
 
-  const turnNewTheme = (themeMode: Theme, isBreak: boolean) => {
-    const newTheme = themeMode === Theme.DYNAMIC ? (isBreak ? Theme.DARK : Theme.LIGHT) : themeMode
-    document.getElementById('body')?.setAttribute('data-bs-theme', newTheme)
-  }
-
-  const handleThemeMode = (themeMode: Theme) => {
-    turnNewTheme(themeMode, isBreak)
-    setThemeMode(themeMode)
+  const handleThemeMode = (newThemeMode: Theme) => {
+    turnNewTheme(newThemeMode, isBreak)
+    setThemeMode(newThemeMode)
   }
 
   useEffect(() => {
@@ -87,10 +84,6 @@ export function Clock() {
 
     return () => clearInterval(interval)
   })
-
-  useEffect(() => {
-    turnNewTheme(themeMode, isBreak)
-  }, [])
 
   const handleCustomize = () => {
     setIsRunning(false)
