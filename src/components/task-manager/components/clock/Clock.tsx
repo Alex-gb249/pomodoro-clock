@@ -51,7 +51,7 @@ export function Clock() {
     setSeconds(newSeconds)
     setCustomSeconds(newSeconds)
 
-    document.documentElement.setAttribute('data-bs-theme', newSetIsBreak ? 'dark' : 'light')
+    document.getElementById('body')?.setAttribute('data-bs-theme', newSetIsBreak ? 'dark' : 'light')
 
     localStorage.setItem('isBreak', newSetIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
@@ -73,7 +73,7 @@ export function Clock() {
   })
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-bs-theme', isBreak ? 'dark' : 'light')
+    document.getElementById('body')?.setAttribute('data-bs-theme', isBreak ? 'dark' : 'light')
   }, [])
 
   const handleCustomize = () => {
