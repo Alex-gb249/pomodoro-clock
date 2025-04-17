@@ -50,16 +50,16 @@ export function Clock() {
   const turnPomodoro = () => {
     setIsRunning(false)
 
-    const newSetIsBreak = !isBreak
-    setIsBreak(newSetIsBreak)
+    const newIsBreak = !isBreak
+    setIsBreak(newIsBreak)
 
-    const newSeconds = newSetIsBreak ? DEFAULT_BREAK_SECONDS : DEFAULT_SECONDS
+    const newSeconds = newIsBreak ? DEFAULT_BREAK_SECONDS : DEFAULT_SECONDS
     setSeconds(newSeconds)
     setCustomSeconds(newSeconds)
 
-    turnNewTheme(themeMode, newSetIsBreak)
+    turnNewTheme(themeMode, newIsBreak)
 
-    localStorage.setItem('isBreak', newSetIsBreak.toString())
+    localStorage.setItem('isBreak', newIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
   }
 
