@@ -85,10 +85,6 @@ export function Clock() {
     return () => clearInterval(interval)
   })
 
-  useEffect(() => {
-    turnNewTheme(themeMode, isBreak)
-  }, [])
-
   const handleCustomize = () => {
     setIsRunning(false)
     setIsCustomizing(true)
