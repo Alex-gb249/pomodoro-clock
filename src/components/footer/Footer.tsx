@@ -28,22 +28,19 @@ export function Footer() {
         Alex Bermúdez - Pomodoro App
       </a>
 
-      <div className='position-absolute bottom-0 end-0 p-3'>
+      <div className='position-absolute bottom-0 end-0 m-2 p-2'>
         {!isCustomizing && themeMode === Theme.DARK && (
-          <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.LIGHT)}>
+          <a className='clickable text-secondary' onClick={() => handleThemeMode(Theme.LIGHT)}>
             <Moon />
           </a>
         )}
         {!isCustomizing && themeMode === Theme.LIGHT && (
-          <a
-            className='clickable text-secondary me-2'
-            onClick={() => handleThemeMode(Theme.DYNAMIC)}
-          >
+          <a className='clickable text-secondary' onClick={() => handleThemeMode(Theme.DYNAMIC)}>
             <Sun />
           </a>
         )}
         {!isCustomizing && themeMode === Theme.DYNAMIC && (
-          <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.DARK)}>
+          <a className='clickable text-secondary' onClick={() => handleThemeMode(Theme.DARK)}>
             <SunMoon />
           </a>
         )}
