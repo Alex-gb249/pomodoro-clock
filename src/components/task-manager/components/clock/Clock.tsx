@@ -7,10 +7,6 @@ import {
 } from '../../../../utilities/ClockUtils'
 import { PomodoroContext } from '../../../../contexts/Pomodoro'
 import Skip from '../../../../assets/Skip'
-import { Theme } from '../../../../models/Themes'
-import Moon from '../../../../assets/Moon'
-import Sun from '../../../../assets/Sun'
-import SunMoon from '../../../../assets/SunMoon'
 import { ThemeContext } from '../../../../contexts/Theme'
 import { turnNewTheme } from '../../../../utilities/ThemeUtils'
 import Infinity from '../../../../assets/Infinity'
@@ -32,7 +28,7 @@ export function Clock() {
     setIsAutoRun,
   } = useContext(PomodoroContext)
 
-  const { themeMode, setThemeMode } = useContext(ThemeContext)
+  const { themeMode } = useContext(ThemeContext)
 
   const stopTimer = () => {
     setIsRunning(false)
@@ -71,11 +67,6 @@ export function Clock() {
 
     localStorage.setItem('isBreak', newIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
-  }
-
-  const handleThemeMode = (newThemeMode: Theme) => {
-    turnNewTheme(newThemeMode, isBreak)
-    setThemeMode(newThemeMode)
   }
 
   useEffect(() => {
@@ -159,24 +150,6 @@ export function Clock() {
       </div>
 
       <div className='d-flex justify-content-center align-items-center'>
-        {!isCustomizing && themeMode === Theme.DARK && (
-          <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.LIGHT)}>
-            <Moon />
-          </a>
-        )}
-        {!isCustomizing && themeMode === Theme.LIGHT && (
-          <a
-            className='clickable text-secondary me-2'
-            onClick={() => handleThemeMode(Theme.DYNAMIC)}
-          >
-            <Sun />
-          </a>
-        )}
-        {!isCustomizing && themeMode === Theme.DYNAMIC && (
-          <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.DARK)}>
-            <SunMoon />
-          </a>
-        )}
         {!isCustomizing && isAutoRun && (
           <a className='clickable text-secondary me-2' onClick={() => handleAutoRun(false)}>
             <Infinity />
