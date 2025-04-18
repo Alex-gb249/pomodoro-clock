@@ -19,3 +19,8 @@ export const initialIsBreak = () => {
   const savedIsBreak = localStorage.getItem('isBreak') === 'true'
   return savedIsBreak
 }
+
+export const initialIsAutoRun = () => {
+  const savedIsAutoRun = localStorage.getItem('isAutoRun') === 'true'
+  return savedIsAutoRun
+}

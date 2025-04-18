@@ -13,6 +13,8 @@ import Sun from '../../../../assets/Sun'
 import SunMoon from '../../../../assets/SunMoon'
 import { ThemeContext } from '../../../../contexts/Theme'
 import { turnNewTheme } from '../../../../utilities/ThemeUtils'
+import Infinity from '../../../../assets/Infinity'
+import InfinityOff from '../../../../assets/InfinityOff'
 
 export function Clock() {
   const {
@@ -26,6 +28,8 @@ export function Clock() {
     setCustomSeconds,
     isBreak,
     setIsBreak,
+    isAutoRun,
+    setIsAutoRun,
   } = useContext(PomodoroContext)
 
   const { themeMode, setThemeMode } = useContext(ThemeContext)
@@ -60,6 +64,10 @@ export function Clock() {
     setCustomSeconds(newSeconds)
 
     turnNewTheme(themeMode, newIsBreak)
+
+    if (isAutoRun) {
+      setIsRunning(true)
+    }
 
     localStorage.setItem('isBreak', newIsBreak.toString())
     localStorage.setItem('savedSeconds', newSeconds.toString())
@@ -115,6 +123,11 @@ export function Clock() {
     turnPomodoro()
   }
 
+  const handleAutoRun = (value: boolean) => {
+    setIsAutoRun(value)
+    localStorage.setItem('isAutoRun', value.toString())
+  }
+
   return (
     <div>
       <div className='d-flex justify-content-center'>
@@ -162,6 +175,16 @@ export function Clock() {
         {!isCustomizing && themeMode === Theme.DYNAMIC && (
           <a className='clickable text-secondary me-2' onClick={() => handleThemeMode(Theme.DARK)}>
             <SunMoon />
+          </a>
+        )}
+        {!isCustomizing && isAutoRun && (
+          <a className='clickable text-secondary me-2' onClick={() => handleAutoRun(false)}>
+            <Infinity />
+          </a>
+        )}
+        {!isCustomizing && !isAutoRun && (
+          <a className='clickable text-secondary me-2' onClick={() => handleAutoRun(true)}>
+            <InfinityOff />
           </a>
         )}
         {!isRunning && !isCustomizing && seconds == customSeconds && (
