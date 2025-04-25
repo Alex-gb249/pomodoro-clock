@@ -11,6 +11,7 @@ import { ThemeContext } from '../../../../contexts/Theme'
 import { turnNewTheme } from '../../../../utilities/ThemeUtils'
 import Infinity from '../../../../assets/Infinity'
 import InfinityOff from '../../../../assets/InfinityOff'
+import useSound from '../../../../hooks/useSound'
 
 export function Clock() {
   const {
@@ -29,6 +30,8 @@ export function Clock() {
   } = useContext(PomodoroContext)
 
   const { themeMode } = useContext(ThemeContext)
+
+  const { play } = useSound('notification')
 
   const stopTimer = () => {
     setIsRunning(false)
@@ -60,6 +63,7 @@ export function Clock() {
     setCustomSeconds(newSeconds)
 
     turnNewTheme(themeMode, newIsBreak)
+    play()
 
     if (isAutoRun) {
       setIsRunning(true)
