@@ -63,7 +63,6 @@ export function Clock() {
     setCustomSeconds(newSeconds)
 
     turnNewTheme(themeMode, newIsBreak)
-    play()
 
     if (isAutoRun) {
       setIsRunning(true)
@@ -79,6 +78,7 @@ export function Clock() {
     const interval = setInterval(() => {
       const newSeconds = seconds - 1
       if (newSeconds <= 0) {
+        play()
         turnPomodoro()
       } else {
         setSeconds(newSeconds)
