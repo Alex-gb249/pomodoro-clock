@@ -64,6 +64,8 @@ export function Clock() {
 
     turnNewTheme(themeMode, newIsBreak)
 
+    sendNotification(newIsBreak)
+
     if (isAutoRun) {
       setIsRunning(true)
     }
@@ -121,6 +123,16 @@ export function Clock() {
   const handleAutoRun = (value: boolean) => {
     setIsAutoRun(value)
     localStorage.setItem('isAutoRun', value.toString())
+  }
+
+  const sendNotification = (isBreak: boolean) => {
+    if (document.visibilityState === 'hidden') {
+      const img = 'clock.png'
+      const text = isBreak ? 'You can take a brake' : "It's time to work"
+      if (Notification.permission === 'granted') {
+        new Notification('To do list', { body: text, icon: img, lang: 'en' })
+      }
+    }
   }
 
   return (
