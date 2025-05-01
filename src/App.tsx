@@ -15,6 +15,12 @@ function App() {
     turnNewTheme(themeMode, isBreak)
   }, [])
 
+  useEffect(() => {
+    if (Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
+  }, [])
+
   return (
     <>
       <div className='all prevent-select'>
