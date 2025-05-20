@@ -78,17 +78,18 @@ export function Clock() {
     if (!isRunning) return
 
     const interval = setInterval(() => {
-      const newSeconds = seconds - 1
-      if (newSeconds <= 0) {
-        play()
-        turnPomodoro()
-      } else {
-        setSeconds(newSeconds)
-      }
+      setSeconds((prevSeconds) => {
+        const newSeconds = prevSeconds - 1
+        if (newSeconds <= 0) {
+          play()
+          turnPomodoro()
+        }
+        return newSeconds
+      })
     }, 1000)
 
     return () => clearInterval(interval)
-  })
+  }, [isRunning])
 
   const handleCustomize = () => {
     setIsRunning(false)

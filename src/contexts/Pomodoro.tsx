@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, SetStateAction, useState } from 'react'
 import { initialIsAutoRun, initialIsBreak, initialSeconds } from '../utilities/ClockUtils'
 
 const DEFAULT_CONTEXT = {
@@ -20,7 +20,7 @@ export const PomodoroContext = createContext<PomodoroContextType>(DEFAULT_CONTEX
 
 export interface PomodoroContextType {
   seconds: number
-  setSeconds: (seconds: number) => void
+  setSeconds: (value: SetStateAction<number>) => void
   isRunning: boolean
   setIsRunning: (isRunning: boolean) => void
   isCustomizing: boolean
