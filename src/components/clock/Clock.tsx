@@ -1,17 +1,13 @@
 import { useContext, useEffect } from 'react'
 import './Clock.css'
-import {
-  DEFAULT_BREAK_SECONDS,
-  DEFAULT_SECONDS,
-  secondsToClock,
-} from '../../../../utilities/ClockUtils'
-import { PomodoroContext } from '../../../../contexts/Pomodoro'
-import Skip from '../../../../assets/Skip'
-import { ThemeContext } from '../../../../contexts/Theme'
-import { turnNewTheme } from '../../../../utilities/ThemeUtils'
-import Infinity from '../../../../assets/Infinity'
-import InfinityOff from '../../../../assets/InfinityOff'
-import useSound from '../../../../hooks/useSound'
+import { DEFAULT_BREAK_SECONDS, DEFAULT_SECONDS, secondsToClock } from '../../utilities/ClockUtils'
+import { PomodoroContext } from '../../contexts/Pomodoro'
+import Skip from '../../assets/Skip'
+import { ThemeContext } from '../../contexts/Theme'
+import { turnNewTheme } from '../../utilities/ThemeUtils'
+import Infinity from '../../assets/Infinity'
+import InfinityOff from '../../assets/InfinityOff'
+import useSound from '../../hooks/useSound'
 
 export function Clock() {
   const {
