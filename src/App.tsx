@@ -6,10 +6,13 @@ import { useContext, useEffect } from 'react'
 import { turnNewTheme } from './utilities/ThemeUtils'
 import { ThemeContext } from './contexts/Theme'
 import { PomodoroContext } from './contexts/Pomodoro'
+import { TasksContext } from './contexts/Tasks'
+import { Clock } from './components/task-manager/components/clock/Clock'
 
 function App() {
   const { themeMode } = useContext(ThemeContext)
   const { isBreak } = useContext(PomodoroContext)
+  const { isSelectingTask } = useContext(TasksContext)
 
   useEffect(() => {
     turnNewTheme(themeMode, isBreak)
@@ -26,7 +29,7 @@ function App() {
       <div className='all prevent-select'>
         <Header />
         <div className='d-flex justify-content-center align-items-center'>
-          <TaskManager />
+          {isSelectingTask ? <TaskManager /> : <Clock />}
         </div>
         <Footer />
       </div>
