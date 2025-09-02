@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 import { Task } from '../../models/Task'
 import './TaskManager.css'
-import { Clock } from './components/clock/Clock'
 import { TasksContext } from '../../contexts/Tasks'
 import Check from '../../assets/Check'
 import Cancel from '../../assets/Cancel'
@@ -10,7 +9,6 @@ import Trash from '../../assets/Trash'
 
 export function TaskManager() {
   const {
-    isSelectingTask,
     setIsSelectingTask,
     tasks,
     setTasks,
@@ -70,7 +68,7 @@ export function TaskManager() {
     localStorage.setItem('currentTask', JSON.stringify(task))
   }
 
-  return isSelectingTask ? (
+  return (
     <div className='card' style={{ width: '24rem' }}>
       <div className='card-body d-flex justify-content-center'>
         <h1>Your's tasks</h1>
@@ -142,7 +140,5 @@ export function TaskManager() {
         )}
       </div>
     </div>
-  ) : (
-    <Clock />
   )
 }
