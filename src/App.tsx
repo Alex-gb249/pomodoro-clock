@@ -7,7 +7,7 @@ import { turnNewTheme } from './utilities/ThemeUtils'
 import { ThemeContext } from './contexts/Theme'
 import { PomodoroContext } from './contexts/Pomodoro'
 import { TasksContext } from './contexts/Tasks'
-import { Clock } from './components/task-manager/components/clock/Clock'
+import { Clock } from './components/clock/Clock'
 
 function App() {
   const { themeMode } = useContext(ThemeContext)
