@@ -4,7 +4,7 @@ import { DEFAULT_BREAK_SECONDS, DEFAULT_SECONDS, secondsToClock } from '../../ut
 import { PomodoroContext } from '../../contexts/Pomodoro'
 import Skip from '../../assets/Skip'
 import { ThemeContext } from '../../contexts/Theme'
-import { turnNewTheme } from '../../utilities/ThemeUtils'
+import { getColorClass, turnNewTheme } from '../../utilities/ThemeUtils'
 import Infinity from '../../assets/Infinity'
 import InfinityOff from '../../assets/InfinityOff'
 import useSound from '../../hooks/useSound'
@@ -26,6 +26,8 @@ export function Clock() {
   } = useContext(PomodoroContext)
 
   const { themeMode } = useContext(ThemeContext)
+
+  const colorClass = getColorClass(themeMode, isBreak)
 
   const { play } = useSound('notification')
 
@@ -156,7 +158,7 @@ export function Clock() {
             />
           </>
         ) : (
-          <h1 className='text-center clickable fs-1' onClick={handleCustomize}>
+          <h1 className={`${colorClass} text-center clickable fs-1`} onClick={handleCustomize}>
             {secondsToClock(seconds)}
           </h1>
         )}
