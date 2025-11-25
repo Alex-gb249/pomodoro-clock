@@ -19,9 +19,17 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (Notification.permission === 'default') {
-      Notification.requestPermission()
+    const requestNotificationPermission = async () => {
+      try {
+        if ('Notification' in window && Notification.permission === 'default') {
+          await Notification.requestPermission()
+        }
+      } catch (error) {
+        console.warn('Error al solicitar permiso de notificaciones:', error)
+      }
     }
+
+    requestNotificationPermission()
   }, [])
 
   return (
