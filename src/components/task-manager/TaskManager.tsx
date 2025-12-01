@@ -6,6 +6,9 @@ import Check from '../../assets/Check'
 import Cancel from '../../assets/Cancel'
 import Plus from '../../assets/Plus'
 import Trash from '../../assets/Trash'
+import { ThemeContext } from '../../contexts/Theme'
+import { PomodoroContext } from '../../contexts/Pomodoro'
+import { getColorClass } from '../../utilities/ThemeUtils'
 
 export function TaskManager() {
   const {
@@ -21,6 +24,11 @@ export function TaskManager() {
     currentTask,
     setCurrentTask,
   } = useContext(TasksContext)
+
+  const { themeMode } = useContext(ThemeContext)
+  const { isBreak } = useContext(PomodoroContext)
+
+  const colorClass = getColorClass(themeMode, isBreak)
 
   const handleCreate = () => {
     setIsCreating(true)
@@ -71,30 +79,29 @@ export function TaskManager() {
   return (
     <div className='card' style={{ width: '24rem' }}>
       <div className='card-body d-flex justify-content-center'>
-        <h1>Your's tasks</h1>
+        <h1 className={colorClass}>Your's tasks</h1>
       </div>
       {tasks.length > 0 || isCreating ? (
         <ul className='list-group list-group-flush'>
           {tasks.map((task) => (
             <li
               key={task.getId()}
-              className={`list-group-item d-flex justify-content-between align-items-center ${task.getId() === currentTask?.getId() ? 'bg-secondary-subtle text-primary-emphasis' : ''}`}
+              className={`list-group-item d-flex justify-content-between align-items-center p-0 ${task.getId() === currentTask?.getId() ? 'bg-secondary-subtle text-primary-emphasis' : ''}`}
             >
-              <div className='me-2'>
-                <a
-                  className='card-text fw-bold clickable m-0'
-                  onClick={() => handleCurrentTask(task)}
-                >
-                  {task.getName()}
-                </a>
-                {task.getDescription() && (
-                  <p className='card-text'>
-                    <small className='text-body-secondary'>{task.getDescription()}</small>
-                  </p>
-                )}
-              </div>
+              <a className='clickable w-100' onClick={() => handleCurrentTask(task)}>
+                <div className='me-2 ps-3 py-2'>
+                  <p className='card-text fw-bold m-0'>{task.getName()}</p>
+                  {task.getDescription() && (
+                    <p className='card-text'>
+                      <small className='text-body-secondary'>{task.getDescription()}</small>
+                    </p>
+                  )}
+                </div>
+              </a>
               <a className='clickable text-danger' onClick={() => handleDelete(task.getId())}>
-                <Trash />
+                <div className='px-3 py-2'>
+                  <Trash />
+                </div>
               </a>
             </li>
           ))}
