@@ -14,8 +14,9 @@ h1, h2, h3, h4, h5, h6 {
   font-style: normal;
 }
 
-#body, nav {
-  transition: background-color 1s ease, color 1s ease;
+.animated-theme {
+  transition: 
+    background-color 1s ease, color 1s ease, border-color 1s ease;
 }
 
 .primary-dark-text {

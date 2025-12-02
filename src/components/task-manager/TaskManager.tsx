@@ -77,8 +77,8 @@ export function TaskManager() {
   }
 
   return (
-    <div className='card' style={{ width: '24rem' }}>
-      <div className='card-body d-flex justify-content-center'>
+    <div className='card animated-theme' style={{ width: '24rem' }}>
+      <div className='card-body animated-theme d-flex justify-content-center'>
         <h1 className={colorClass}>Your's tasks</h1>
       </div>
       {tasks.length > 0 || isCreating ? (
@@ -86,7 +86,7 @@ export function TaskManager() {
           {tasks.map((task) => (
             <li
               key={task.getId()}
-              className={`list-group-item d-flex justify-content-between align-items-center p-0 ${task.getId() === currentTask?.getId() ? 'bg-secondary-subtle text-primary-emphasis' : ''}`}
+              className={`animated-theme list-group-item d-flex justify-content-between align-items-center p-0 ${task.getId() === currentTask?.getId() ? 'bg-secondary-subtle text-primary-emphasis' : ''}`}
             >
               <a className='clickable w-100' onClick={() => handleCurrentTask(task)}>
                 <div className='me-2 ps-3 py-2'>
